@@ -4,6 +4,8 @@ class Team:
         self.seed = seed
         self.pool = pool
         self.games = []
+        self.rating = 1000
+        self.game_ratings = []
 
     #allows sorting by seed
     def __lt__(self, other):

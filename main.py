@@ -3,15 +3,15 @@ from webscraper import get_tournament
 from textscraper import get_games, add_games_to_teams
 from algorithm import get_rating_differential, get_score_weight
 
-url = "https://play.usaultimate.org/events/USA-Ultimate-College-Championships-2021/schedule/Men/CollegeMen/d_i_men/"
-#url = "https://play.usaultimate.org/events/USA-Ultimate-College-Championships-2021/schedule/Women/CollegeWomen/d_i_women/"
+#url = "https://play.usaultimate.org/events/USA-Ultimate-College-Championships-2021/schedule/Men/CollegeMen/d_i_men/"
+url = "https://play.usaultimate.org/events/USA-Ultimate-College-Championships-2021/schedule/Women/CollegeWomen/d_i_women/"
 #url = "https://play.usaultimate.org/events/2017-US-Open-Club-Championships/schedule/Boys/youth-club-u-20-boys/"
 #url = "https://play.usaultimate.org/events/2018-US-Open-Club-Championships/schedule/Boys/youth-club-u-20-boys/"
 #url = "https://play.usaultimate.org/events/2019-US-Open-Club-Championship/schedule/Boys/youth-club-u-20-boys/"
 #url = "https://play.usaultimate.org/events/Atlantic-Coast-D-I-College-Mens-Regionals-2021/schedule/Men/CollegeMen/"
 
 #scrapes usau website
-tournament = get_tournament(url)
+tournament = get_tournament(url, None)
 name = tournament.name
 teams = tournament.teams
 games = tournament.games

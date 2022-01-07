@@ -4,7 +4,11 @@ from datetime import datetime
 from classes import Team, Game
 from classplus import Tournament
 
-def get_tournament(url):
+def get_tournament(url, teams):
+
+    if teams == None:
+        teams = []
+
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html.parser')
 
@@ -14,7 +18,6 @@ def get_tournament(url):
 
     pools = soup.find_all("div", {"class": "pool"})[0:num_pools]
     pools_games = soup.find_all("table", {"class": "global_table scores_table"})
-    teams = []
     games = []
 
     #creates list of teams from pools
@@ -23,7 +26,13 @@ def get_tournament(url):
         for row in pool.find("table").find("tbody").find_all("a"):
             name = row.contents[0].rsplit(' ', 1)[0]
             seed = row.contents[0].split(" ")[-1][1:-1]
-            teams.append(Team(name, seed, pool_letter))
+            doesTeamExist = False
+            for team in teams:
+                if team.name == name:
+                    doesTeamExist = True
+                    break
+            if (not doesTeamExist):
+                teams.append(Team(name, seed, pool_letter))
 
     t_year = int(soup.find("span", {"class": "date"}).contents[0].split(" ")[0].split("/")[2])
     t_month = 0
@@ -124,6 +133,8 @@ def get_tournament(url):
 
     for game in games:
         if game.teamA_score == "W" or game.teamB_score == "W":
+            game.teamA.games.remove(game)
+            game.teamB.games.remove(game)
             games.remove(game)
 
     division = soup.find("h1", {"class": "title"}).contents[0]

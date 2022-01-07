@@ -20,7 +20,7 @@ def get_tournament(url):
     for pool in pools:
         pool_letter = pool.find("h3").contents[0][5]
         for row in pool.find("table").find("tbody").find_all("a"):
-            name = row.contents[0][0:row.contents[0].find('(')-1]
+            name = row.contents[0][0:row.contents[0].find('(')-1].rstrip()
             seed = row.contents[0][row.contents[0].rfind('(')+1:row.contents[0].rfind(')')]
             teams.append(Team(name, seed, pool_letter))
 
@@ -31,7 +31,6 @@ def get_tournament(url):
             if row.has_attr("data-game"):
                 teamA_name = row.find_all("td")[3].find("a").contents[0]
                 teamB_name = row.find_all("td")[4].find("a").contents[0]
-                teamA, teamB = None, None
                 for team in teams:
                     if team.name in teamA_name:
                         teamA = team

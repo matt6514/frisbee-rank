@@ -1,5 +1,5 @@
 class Team:
-    def __init__(self, name, seed, pool):
+    def __init__(self, name, seed, pool=None):
         self.name = name
         self.seed = seed
         self.pool = pool
@@ -7,23 +7,25 @@ class Team:
         self.rating = 1000
         self.game_ratings = []
 
-    #allows sorting by seed
+    #allows sorting by seed or rating
     def __lt__(self, other):
-        return int(self.seed) < int(other.seed)
+        #return int(self.seed) < int(other.seed)
+        return int(self.rating) > int(other.rating)
 
-    def print_team(self):
-        print("Team: " + self.name + " (" + self.seed + ")")
+    def to_string(self):
+        return ("Team: " + self.name + " (" + self.seed + ")")
 
     def add_game(self, game):
         self.games.append(game)
 
     def print_games(self):
-        self.print_team()
+        self.games.sort()
+        print(self.to_string())
         for game in self.games:
-            game.print_game()
+            print(game.to_string())
 
 class Game:
-    def __init__(self, teamA, teamB, teamA_score, teamB_score, datetime, pool):
+    def __init__(self, teamA, teamB, teamA_score, teamB_score, datetime, pool=None):
         self.teamA = teamA
         self.teamB = teamB
         self.teamA_score = teamA_score
@@ -35,5 +37,5 @@ class Game:
     def __lt__(self, other):
         return self.datetime < other.datetime
 
-    def print_game(self):
-        print("Game: " + str(self.datetime.strftime("%b %d %H:%M")) + " | " + self.teamA.name + " vs. " + self.teamB.name + ", " + self.teamA_score + " - " + self.teamB_score)
+    def to_string(self):
+        return ("Game: " + str(self.datetime.strftime("%b %d %H:%M")) + " | " + self.teamA.name + " vs. " + self.teamB.name + ", " + self.teamA_score + " - " + self.teamB_score)
